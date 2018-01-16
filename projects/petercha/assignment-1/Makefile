@@ -32,7 +32,7 @@ clean-ps: clean-dvi
 	rm -f ${TARGET}.ps
 
 clean-pdf: clean-ps
-	rm -f ${TARGET}.bbl
+	#rm -f ${TARGET}.bbl #Need this file for references to render each time
 	rm -f ${TARGET}.blg
 	rm -f ${TARGET}.pdf
 
