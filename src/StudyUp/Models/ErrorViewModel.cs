@@ -1,6 +1,6 @@
 using System;
 
-namespace src.Models
+namespace StudyUp.Models
 {
     public class ErrorViewModel
     {
