@@ -8,7 +8,7 @@ namespace StudyUp.Models
 
         public string Location { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         public TimeSpan Duration { get; set; }
 

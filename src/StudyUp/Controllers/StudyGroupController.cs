@@ -12,8 +12,8 @@ namespace StudyUp.Controllers
             var group = new StudyGroup(){
                 GroupTitle = "Software Engineering I Study Group",
                 Location = "KEC 1007",
-                StartTime = new DateTime(2018, 3, 4, 12, 0, 0),
-                Duration = new TimeSpan(50000),
+                DateTime = new DateTime(2018, 3, 4, 12, 30, 0, 1),
+                Duration = new TimeSpan(20, 0, 0),
                 Capacity = 5,
                 Objectives = "To create the StudyUp app and review for Quiz 3!"
             };
