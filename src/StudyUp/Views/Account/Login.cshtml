@@ -1,0 +1,29 @@
+@model CanvasUser
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<div class="row justify-content-left">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+            @{
+                <form asp-antiforgery="true" asp-controller="Account" asp-action="Login">
+                    <div class="form-group">
+                        <label asp-for="Token"></label>
+                        <input asp-for="Token" class="form-control"/>
+                    </div>
+                    <input type="submit" value="Login" class="btn btn-primary">
+                </form>
+            }
+            @if (!ViewData.ModelState.IsValid) {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).Aggregate((c, i) => c + ", " + i)
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+</div>
