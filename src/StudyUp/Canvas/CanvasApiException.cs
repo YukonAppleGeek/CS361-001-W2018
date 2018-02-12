@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 
-namespace StudyUp
+namespace StudyUp.Canvas
 {
     public class CanvasApiException : HttpRequestException
     {

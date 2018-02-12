@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json.Linq;
+using StudyUp.Canvas;
 using StudyUp.Controllers;
 using StudyUp.Models;
 
@@ -31,7 +32,7 @@ namespace StudyUp.Controllers
 
             JObject userInfo;
             try {
-                userInfo = await CanvasApi.GetUserInfoAsync(user.Token);
+                userInfo = await CanvasApi.GetUserInfo(user.Token);
             } catch(CanvasApiException e) {
                 if (e.Response != null) {
                     foreach (var errors in e.Response["errors"]) {

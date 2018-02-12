@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace StudyUp
+namespace StudyUp.Canvas
 {
     public static class CanvasApi {
         private static HttpClient _client;
@@ -40,7 +40,7 @@ namespace StudyUp
             return new CanvasApiException(response.StatusCode, JObject.Parse(content));
         }
 
-        public static async Task<JObject> GetUserInfoAsync(string token) {
+        public static async Task<JObject> GetUserInfo(string token) {
             var response = await client.SendAsync(CreateTokenRequest("v1/users/self", token));
             
             if (!response.IsSuccessStatusCode) {
