@@ -12,7 +12,7 @@
             @{
                 <form asp-antiforgery="true" asp-controller="Account" asp-action="Login">
                     <div class="form-group">
-                        <label asp-for="Token"></label>
+                        <label asp-for="Token"></label><a href="#" class="mx-1 badge badge-pill badge-info" data-toggle="modal" data-target="#accessTokenInfo">@Html.Raw("?")</a>
                         <input asp-for="Token" class="form-control"/>
                     </div>
                     <input type="submit" value="Login" class="btn btn-primary">
@@ -23,6 +23,24 @@
                     @ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).Aggregate((c, i) => c + ", " + i)
                 </div>
             }
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="accessTokenInfo" tabindex="-1" role="dialog" aria-labelledby="accessTokenInfo" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accessTokenInfoLable">Access Token?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Because this website is still in development to login you have to <a target="_blank" rel="noopener noreferrer" href="https://oregonstate.instructure.com/profile/settings">generate your own access token</a>.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
             </div>
         </div>
     </div>
