@@ -1,3 +1,5 @@
+
+
 <h1> Pick a Class </h1>
  <!-- This will look weird until the first form is done -->
 <div class="card-deck">
@@ -38,8 +40,6 @@
 <h2>Please enter remaining info </h2> <br>
     <form asp-antiforgery="true" asp-controller="Account" asp-action="Login">
         <div class="form-group">
-           <label asp-for="Token"></label><a href="#" class="mx-1 badge badge-pill badge-info" data-toggle="modal" data-target="#accessTokenInfo">@Html.Raw("?")</a>
-           <input asp-for="Token" class="form-control"/>
             <label asp-for="Title"></label> <input type="text"> <br>
             <label asp-for="Location"></label> <input type="text" > <br>
             <label asp-for="Date"></label> <input type="datetime" > </input> / <input type="text"> </input> /<input type="text"> </input> <br>
@@ -47,6 +47,6 @@
             <label asp-for="Duration"></label><input type="text"> <br>
             <label asp-for="Capacity"></label><input type="text"> <br>
             <label asp-for="Objectives"></label> <input type="text"> <br>
+            <input type="submit" value="GroupInfo" class="btn btn-primary">
         </div>
-    <input type="submit" value="GroupInfo" class="btn btn-primary">
     </form> -->
