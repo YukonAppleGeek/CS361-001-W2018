@@ -1,0 +1,15 @@
+
+<h1>View Study Group</h1>
+<h2>Group Title: @Model.GroupTitle</h2>
+<button type="button" class="btn btn-link">Edit Form</button>
+<ul style="list-style-type:none">
+    <li>Date: @Model.DateTime.ToString("MM/dd/yyy")</li>
+    <li>Time: @Model.DateTime.ToString("HH:mm:ss")</li> <!-- Add am/pm label -->
+    <li>Duration: @Model.Duration</li>  <!--Fix duruation format -->
+    <li>Location: @Model.Location</li>
+    <li>Group Capacity: @Model.Capacity</li>
+    <li>Objectives: @Model.Objectives</li>
+</ul>
+<button type="button" class="btn btn-primary pull-right">Cancel</button>
+<!-- <button type="button" class="btn btn-primary pull-right" id="right-panel-link" href="#right-panel">Test</button> -->
+<button type="button" class="btn btn-primary pull-right">Join</button>
