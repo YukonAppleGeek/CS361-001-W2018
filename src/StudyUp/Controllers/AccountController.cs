@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -15,6 +16,12 @@ namespace StudyUp.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly StudyUpContext db;
+
+        public AccountController(StudyUpContext dbContext) {
+            db = dbContext;
+        }
+
         public IActionResult Login(string returnUrl = null)
         {
             TempData["returnUrl"] = returnUrl;
@@ -47,9 +54,10 @@ namespace StudyUp.Controllers
             if (ModelState.IsValid) {
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identity.AddClaim(new Claim("Token", user.Token));
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, (string)userInfo.SelectToken("id")));
-                identity.AddClaim(new Claim(ClaimTypes.Name, (string)userInfo.SelectToken("name")));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, (string) userInfo["id"]));
+                identity.AddClaim(new Claim(ClaimTypes.Name, (string) userInfo["name"]));
 
+                await UpdateStudentRecord(userInfo, user.Token);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             }
 
@@ -67,10 +75,36 @@ namespace StudyUp.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task UpdateStudentRecord(JObject userInfo, string token) {
+            var student = db.Students.Find((int) userInfo.SelectToken("id"));
+            if (student == null) {
+                student = new Student() {
+                    Id = (int) userInfo["id"],
+                    Name = (string) userInfo["name"]
+                };
+
+                db.Students.Add(student);   
+            }
+
+            var jsonCourses = await CanvasApi.GetUserCourses(token);
+            var courses = jsonCourses.Select(i => new Course() {
+                Id = (int) i["id"],
+                Name = (string) i["name"],
+                StartDate = ((DateTime?) i["term"]["start_at"] ?? (DateTime) i["start_at"]),
+                EndDate = (DateTime) i["term"]["end_at"]
+            }).ToList();
+
+            student.Courses = courses;
+            db.Students.Update(student);
+
+            await db.SaveChangesAsync();
         }
     }
 }

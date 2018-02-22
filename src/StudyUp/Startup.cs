@@ -24,6 +24,7 @@ namespace StudyUp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<StudyUpContext>(_ => new StudyUpContext());
             
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;

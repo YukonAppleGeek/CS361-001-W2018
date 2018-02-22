@@ -50,5 +50,18 @@ namespace StudyUp.Canvas
             var content = await response.Content.ReadAsStringAsync();
             return JObject.Parse(content);
         }
+
+        public static async Task<JArray> GetUserCourses(string token) {
+            // Returns first 75 results, headers should be checked to see if more pages exist
+            var response = await client.SendAsync(CreateTokenRequest("v1/courses?include[]=term&per_page=75", token));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw await CreateApiException(response);
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JArray.Parse(content);
+        }
     }
 }
