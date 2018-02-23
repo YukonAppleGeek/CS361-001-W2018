@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json.Linq;
 using StudyUp.Canvas;
 using StudyUp.Controllers;
+using StudyUp.Database;
 using StudyUp.Models;
 
 namespace StudyUp.Controllers
@@ -90,7 +91,7 @@ namespace StudyUp.Controllers
                     Name = (string) userInfo["name"]
                 };
 
-                db.Students.Add(student);   
+                // db.Students.Add(student);   
             }
 
             var jsonCourses = await CanvasApi.GetUserCourses(token);
@@ -101,8 +102,17 @@ namespace StudyUp.Controllers
                 EndDate = (DateTime) i["term"]["end_at"]
             }).ToList();
 
-            student.Courses = courses;
-            db.Students.Update(student);
+            // db.Courses.AddRange(courses);
+
+            var studentCourse = courses.Select(course => new StudentCourse() {
+                Student = student,
+                Course = course
+            }).ToList();
+
+            // db.StudentCourses.AddRange(studentCourse);
+
+            student.Courses = studentCourse;
+            db.Students.Add(student);
 
             await db.SaveChangesAsync();
         }
