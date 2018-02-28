@@ -16,9 +16,8 @@ namespace StudyUp.Database {
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StudentCourse>().HasKey(t => new {t.StudentId, t.CourseId});
+            modelBuilder.Entity<StudentCourse>().HasKey(t => new { t.StudentId, t.CourseId });
             modelBuilder.Entity<StudentStudyGroup>().HasKey(t => new { t.StudentId, t.StudyGroupId });
-
         }
     }
 }

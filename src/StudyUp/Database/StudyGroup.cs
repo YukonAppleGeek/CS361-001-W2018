@@ -5,6 +5,10 @@ namespace StudyUp.Database
 {
     public class StudyGroup
     {
+        public StudyGroup() {
+            this.Members = new List<StudentStudyGroup>();
+        }
+
         public int Id { get; set; }
         public string GroupTitle { get; set; }
         public string Location { get; set; }
@@ -13,8 +17,8 @@ namespace StudyUp.Database
         public int Capacity { get; set; }
         public string Objectives { get; set; }
 
-        public Course Course { get; set; }
-        public Student Owner { get; set; }
-        public List<StudentStudyGroup> Members { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual Student Owner { get; set; }
+        public virtual ICollection<StudentStudyGroup> Members { get; set; }
     }
 }

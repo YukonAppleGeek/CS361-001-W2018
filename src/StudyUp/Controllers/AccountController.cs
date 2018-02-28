@@ -91,28 +91,23 @@ namespace StudyUp.Controllers
                     Name = (string) userInfo["name"]
                 };
 
-                // db.Students.Add(student);   
+                db.Students.Add(student);
             }
 
             var jsonCourses = await CanvasApi.GetUserCourses(token);
             var courses = jsonCourses.Select(i => new Course() {
                 Id = (int) i["id"],
                 Name = (string) i["name"],
-                StartDate = ((DateTime?) i["term"]["start_at"] ?? (DateTime) i["start_at"]),
+                StartDate = (DateTime?) i["term"]["start_at"],
                 EndDate = (DateTime) i["term"]["end_at"]
             }).ToList();
-
-            // db.Courses.AddRange(courses);
+            db.Courses.AttachRange(courses);
 
             var studentCourse = courses.Select(course => new StudentCourse() {
-                Student = student,
-                Course = course
+                StudentId = student.Id,
+                CourseId = course.Id
             }).ToList();
-
-            // db.StudentCourses.AddRange(studentCourse);
-
-            student.Courses = studentCourse;
-            db.Students.Add(student);
+            db.StudentCourses.AttachRange(studentCourse);
 
             await db.SaveChangesAsync();
         }
