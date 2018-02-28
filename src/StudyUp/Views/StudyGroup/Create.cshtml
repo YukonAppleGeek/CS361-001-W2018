@@ -1,55 +1,27 @@
+<!-- IDK WHERE TO PUT THIS KEY 1002~4qG4yPJXjgt3kTYp4kPacsTpA3wixyjhBytCjaKjtSRyFh9GYT8r82NHDyDe22xz -->
+
 <br>
 <h1> Create a Study Group </h1>
 <br>
-<h2> Pick a Class </h2>
- <!-- This will look weird until the first form is done -->
 
-<div class="card-deck">
-  <div class="card text-dark border-warning">
-      <div class="card-body">
-         <h4> Class 1 </h4>
-         <a href="#" class="btn btn-primary">Select</a>    
-      </div> 
-    </div>
-  <div class="card text-dark border-warning">
-      <div class="card-body">
-         <h4> Class 2 </h4>
-         <a href="#" class="btn btn-primary">Select</a>
-      </div>
-  </div>
+<h3> You have chosen: [course id] or [course number if we're lazy]</h3>
 
-  <div class="card text-dark border-warning">
- 
-      <div class="card-body">
-          <h4> Class 3 </h4>
-          <a href="#" class="btn btn-primary">Select</a>
-      </div>
-  </div>
-
-  <div class="card text-dark border-warning">
-
-      <div class="card-body">
-         <h4> Class 4 </h4>
-          <a href="#" class="btn btn-primary">Select</a>
-      </div>
-  </div>
-</div>
-<!-- they should click a button and the class they chose will be sent in query maybe
-#next one: -->
-
+You have chosen: <%=Request.QueryString("id")%>. 
 
 <br> <br>
 <h2>Please enter remaining info </h2> <br>
-<form asp-antiforgery="true" asp-controller="Account" asp-action="Submit">
-    <div class="form-group" b>
+<form asp-antiforgery="true" asp-controller="Account" asp-action="?">  
+    <!-- Not sure if I need account controller or just need to send it to index page -->
+    <div class="form-group" > <br>
         <label for="Title"></label> Title: <input type="text" placeholder="ex: Midterm Study"> <br><br>
         <label for="Location"></label> Location: <input type="text"  placeholder="ex: Wenniger 238"> <br><br>
         <label for="Date"></label> Date: <input type="datetime" placeholder="month"> </input> / <input type="text" placeholder="day"> </input> <br><br>
         <label for="TStart"></label> Start Time: <input type="datetime" placeholder="hour"> : <input type="text" name="ti_min" placeholder="minute"> <br><br>
         <label for="Duration">Duration: </label><input type="text" placeholder="in hours"> <br><br>
         <label for="Capacity"></label> Capacity: <input type="text" placeholder="ex: 20"> <br><br>
-        <label for="Objectives"></label> Objectives: <input type="text" placeholder="ex: do study midterm"> <br><br>
+        <label for="Objectives"></label> Objectives: <input type="text" placeholder="ex: do example problems"> <br><br>
         <input type="submit" value="Confirm" class="btn btn-primary">
+        <!-- view group is at http://localhost:5000/StudyGroup/view -->
     </div>
 </form>
 

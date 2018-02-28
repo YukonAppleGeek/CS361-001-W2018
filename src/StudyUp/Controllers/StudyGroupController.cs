@@ -93,9 +93,14 @@ namespace StudyUp.Controllers
             return View(group);
         }
 
-
-        public IActionResult Create()
+        public IActionResult Create(int? Id = null)
         {
+            if (Id == null)
+            {
+                // Im thinking I need the database set up here
+                return View("ChooseCourse");
+            }
+
             return View();
         }
 
