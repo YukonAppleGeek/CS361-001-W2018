@@ -2,7 +2,7 @@ using System;
 
 namespace StudyUp.Models
 {
-    public class StudyGroup
+    public class StudyGroupViewModel
     {
         public string GroupTitle { get; set; }
 
