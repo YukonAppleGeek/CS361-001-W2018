@@ -1,15 +1,23 @@
 using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using StudyUp.Database;
 using StudyUp.Models;
 
 namespace StudyUp.Controllers
 {
     public class StudyGroupController : Controller
     {
+        private readonly StudyUpContext db;
+
+        public StudyGroupController(StudyUpContext dbContext)
+        {
+            db = dbContext;
+        }
+
         public IActionResult Index()
         {
-            var group = new StudyGroup(){
+            var group = new StudyGroupViewModel(){
                 GroupTitle = "Software Engineering I Study Group",
                 Location = "KEC 1007",
                 DateTime = new DateTime(2018, 3, 4, 12, 30, 0, 1),
