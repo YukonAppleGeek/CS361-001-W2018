@@ -5,7 +5,8 @@ using StudyUp.Models;
 using StudyUp.Database;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace StudyUp.Controllers
 {
@@ -93,11 +94,19 @@ namespace StudyUp.Controllers
             return View(group);
         }
 
+        [Authorize]
         public IActionResult Create(int? Id = null)
         {
             if (Id == null)
             {
-                return View("ChooseCourse");
+                var id = User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier);
+                var stu = db.Students.Find(int.Parse(id.Value));
+                db.Entry(stu).Collection(s => s.Courses);
+                var model = new ChooseCourseViewModel()
+                {
+                    Courses = (List<Course>)stu.Courses
+                };
+                return View("ChooseCourse", model);
             }
 
             return View();

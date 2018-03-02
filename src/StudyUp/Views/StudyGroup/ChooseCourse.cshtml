@@ -4,18 +4,24 @@
 <br>
 <h2> Pick a Class </h2>
  <!-- Need to have class info populated by account asp thing -->
- <!-- a for loop for classes, or while, it will populate dynamically -->
+ <!-- a for loop for number of classes, dynamically create a card for each class -->
 <!-- card deck
     For account.numclasses or something
         Card
             title = account.class1.name or something
  -->
 
+@{
+    foreach (c in Model.Courses){
+    <p>c.Id</p>
+    }
+}
+
 <div class="card-deck">
   <div class="card text-dark border-warning">
       <div class="card-body">
          <h4> account.class or whatever </h4>
-         <a href="/StudyGroup/create/?id=7" class="btn btn-primary">Select</a>    
+         <a href="/StudyGroup/create/45" class="btn btn-primary">Select</a>    
       </div> 
     </div>
   <div class="card text-dark border-warning">
