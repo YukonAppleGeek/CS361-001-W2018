@@ -15,5 +15,7 @@ namespace StudyUp.Models
         public int Capacity { get; set; }
 
         public string Objectives { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

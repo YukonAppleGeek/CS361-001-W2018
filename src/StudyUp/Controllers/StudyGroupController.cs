@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using StudyUp.Models;
 using StudyUp.Database;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization; 
 
 namespace StudyUp.Controllers
 {
@@ -17,12 +19,15 @@ namespace StudyUp.Controllers
 
         // This is to test adding and pulling stuff from the database to text the View UI 
         public IActionResult testData(){
-            var StudyGroup = new StudyGroup(){GroupTitle = "Web Dev Study Group"};
+            var MyStudent = db.Students.Find(6089312);
+            var StudyGroup = new StudyGroup(){GroupTitle = "Web Dev Study Group", Owner = MyStudent};
             db.StudyGroups.Add(StudyGroup);
             db.SaveChanges(); 
             return NotFound();
+
         }
 
+        [Authorize]
         public IActionResult View(int? Id = null)
         {
             var dbEntry = db.StudyGroups.Find(Id);
@@ -35,6 +40,12 @@ namespace StudyUp.Controllers
                 Capacity = dbEntry.Capacity,
                 Objectives = dbEntry.Objectives
             };
+
+            int UserId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var Stu = db.Students.Find(UserId); 
+            db.Entry(dbEntry).Reference(sg => sg.Owner);
+            group.IsOwner = dbEntry.Owner == Stu; 
+
             return View(group);
         }
 

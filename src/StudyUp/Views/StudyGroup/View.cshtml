@@ -12,9 +12,10 @@
                 <h6><strong>Objectives:</strong> @Model.Objectives</h6>
             
             <div class="row justify-content-end">
-                <button type="button" class="btn btn-secondary m-1">Edit</button>
                 <button type="button" class="btn btn-success m-1">Join</button>
-                <button type="button" class="btn btn-danger m-1">Cancel</button>
+               @if(Model.IsOwner){
+                <button type="button" class="btn btn-secondary m-1">Edit</button>
+                <button type="button" class="btn btn-danger m-1">Cancel</button>}
             </div>
     </div>
 </div>
