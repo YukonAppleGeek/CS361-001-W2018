@@ -97,7 +97,6 @@ namespace StudyUp.Controllers
         {
             if (Id == null)
             {
-                // Im thinking I need the database set up here
                 return View("ChooseCourse");
             }
 

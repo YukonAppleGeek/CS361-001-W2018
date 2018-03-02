@@ -3,16 +3,13 @@
 <br>
 <h1> Create a Study Group </h1>
 <br>
-
-<h3> You have chosen: [course id] or [course number if we're lazy]</h3>
-
-You have chosen: <%=Request.QueryString("id")%>. 
-
+<h3> You have chosen: [course id]</h3>
 <br> <br>
 <h2>Please enter remaining info </h2> <br>
-<form asp-antiforgery="true" asp-controller="Account" asp-action="?">  
-    <!-- Not sure if I need account controller or just need to send it to index page -->
-    <div class="form-group" > <br>
+
+<form asp-antiforgery="true" asp-controller="Account" asp-action="register">  
+    <!-- Not sure if I need to use the account controller or just need to send it to view page -->
+    <div class="form-group"> <br>
         <label for="Title"></label> Title: <input type="text" placeholder="ex: Midterm Study"> <br><br>
         <label for="Location"></label> Location: <input type="text"  placeholder="ex: Wenniger 238"> <br><br>
         <label for="Date"></label> Date: <input type="datetime" placeholder="month"> </input> / <input type="text" placeholder="day"> </input> <br><br>
