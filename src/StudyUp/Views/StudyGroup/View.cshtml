@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>View Study Group</h1>
+            <h4>@Model.GroupTitle</h2>
+            
+                <h6><strong>Date:</strong> @Model.DateTime.ToString("MM/dd/yyy")</h6>
+                <h6><strong>Time:</strong> @Model.DateTime.ToString("HH:mm:ss")</h6> 
+                <h6><strong>Duration:</strong> @Model.Duration</h6>  
+                <h6><strong>Location:</strong> @Model.Location</h6>
+                <h6><strong>Group Capacity:</strong> @Model.Capacity</h6>
+                <h6><strong>Objectives:</strong> @Model.Objectives</h6>
+            
+            <div class="row justify-content-end">
+                <button type="button" class="btn btn-secondary m-1">Edit</button>
+                <button type="button" class="btn btn-success m-1">Join</button>
+                <button type="button" class="btn btn-danger m-1">Cancel</button>
+            </div>
+    </div>
+</div>
+
+<!-- 1002~kL5Uz5WztibP6Nw4wMx3RjyNzlNaUbpvUeZxTKI4MPSVYGfzpvQXcvFwfEdsYMuH -->

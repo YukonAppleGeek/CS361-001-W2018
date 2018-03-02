@@ -14,9 +14,18 @@ namespace StudyUp.Controllers
         public StudyGroupController(StudyUpContext dbContext) {
             db = dbContext;
         }
-        public IActionResult Index(int? Id = null)
+
+        // This is to test adding and pulling stuff from the database to text the View UI 
+        public IActionResult testData(){
+            var StudyGroup = new StudyGroup(){GroupTitle = "Web Dev Study Group"};
+            db.StudyGroups.Add(StudyGroup);
+            db.SaveChanges(); 
+            return NotFound();
+        }
+
+        public IActionResult View(int? Id = null)
         {
-            var dbEntry = db.StudyGroups.Where(p => p.Id == Id).FirstOrDefault();
+            var dbEntry = db.StudyGroups.Find(Id);
             if(dbEntry == null) return NotFound();
             var group = new StudyGroupViewModel(){
                 GroupTitle = dbEntry.GroupTitle,
