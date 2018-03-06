@@ -39,6 +39,14 @@ namespace StudyUp.Controllers
                 return View();
             }
 
+            if (user.Token == "demo") {
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "1"));
+                identity.AddClaim(new Claim(ClaimTypes.Name, "John Doe"));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                return RedirectReturnUrl(returnUrl);
+            }
+
             JObject userInfo;
             try {
                 userInfo = await CanvasApi.GetUserInfo(user.Token);
@@ -63,6 +71,10 @@ namespace StudyUp.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             }
 
+            return RedirectReturnUrl(returnUrl);
+        }
+
+        private IActionResult RedirectReturnUrl(string returnUrl) {
             if (returnUrl == null)
             {
                 returnUrl = TempData["returnUrl"]?.ToString();
@@ -72,10 +84,8 @@ namespace StudyUp.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
+                
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         public async Task<IActionResult> Logout()
