@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -95,12 +96,20 @@ namespace StudyUp.Controllers
             }
 
             var jsonCourses = await CanvasApi.GetUserCourses(token);
-            var courses = jsonCourses.Select(i => new Course() {
-                Id = (int) i["id"],
-                Name = (string) i["name"],
-                StartDate = (DateTime?) i["term"]["start_at"],
-                EndDate = (DateTime) i["term"]["end_at"]
-            });
+            var courses = new List<Course>();
+            foreach (var c in jsonCourses) {
+                try {
+                    courses.Add(new Course()
+                    {
+                        Id = (int)c.SelectToken("id"),
+                        Name = (string)c.SelectToken("name"),
+                        StartDate = (DateTime?)c.SelectToken("term.start_at"),
+                        EndDate = (DateTime)c.SelectToken("term.end_at")
+                    });
+                } catch (ArgumentNullException) {
+                    continue;
+                }
+            }
 
             foreach(var c in courses) {
                 var dbCourse = db.Courses.Find(c.Id);
