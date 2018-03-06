@@ -1,56 +1,56 @@
-<br>
+<!-- IDK WHERE TO PUT THIS KEY 1002~4qG4yPJXjgt3kTYp4kPacsTpA3wixyjhBytCjaKjtSRyFh9GYT8r82NHDyDe22xz -->
+@model CreateCourseViewModel
 <h1> Create a Study Group </h1>
-<br>
-<h2> Pick a Class </h2>
- <!-- This will look weird until the first form is done -->
-
-<div class="card-deck">
-  <div class="card text-dark border-warning">
-      <div class="card-body">
-         <h4> Class 1 </h4>
-         <a href="#" class="btn btn-primary">Select</a>    
-      </div> 
-    </div>
-  <div class="card text-dark border-warning">
-      <div class="card-body">
-         <h4> Class 2 </h4>
-         <a href="#" class="btn btn-primary">Select</a>
-      </div>
-  </div>
-
-  <div class="card text-dark border-warning">
- 
-      <div class="card-body">
-          <h4> Class 3 </h4>
-          <a href="#" class="btn btn-primary">Select</a>
-      </div>
-  </div>
-
-  <div class="card text-dark border-warning">
-
-      <div class="card-body">
-         <h4> Class 4 </h4>
-          <a href="#" class="btn btn-primary">Select</a>
-      </div>
-  </div>
-</div>
-<!-- they should click a button and the class they chose will be sent in query maybe
-#next one: -->
-
-
-<br> <br>
 <h2>Please enter remaining info </h2> <br>
-<form asp-antiforgery="true" asp-controller="Account" asp-action="Submit">
-    <div class="form-group" b>
-        <label for="Title"></label> Title: <input type="text" placeholder="ex: Midterm Study"> <br><br>
-        <label for="Location"></label> Location: <input type="text"  placeholder="ex: Wenniger 238"> <br><br>
-        <label for="Date"></label> Date: <input type="datetime" placeholder="month"> </input> / <input type="text" placeholder="day"> </input> <br><br>
-        <label for="TStart"></label> Start Time: <input type="datetime" placeholder="hour"> : <input type="text" name="ti_min" placeholder="minute"> <br><br>
-        <label for="Duration">Duration: </label><input type="text" placeholder="in hours"> <br><br>
-        <label for="Capacity"></label> Capacity: <input type="text" placeholder="ex: 20"> <br><br>
-        <label for="Objectives"></label> Objectives: <input type="text" placeholder="ex: do study midterm"> <br><br>
-        <input type="submit" value="Confirm" class="btn btn-primary">
+
+<form asp-antiforgery="true" asp-controller="StudyGroup" asp-action="Create">  
+    <!-- Not sure if I need to use the account controller or just need to send it to view page -->
+    <div class="form-group"> <br>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" placeholder="ex: Midterm Study">
     </div>
+    <div class="form-group">   
+        <label asp-for="Location"></label>
+        <input asp-for="Location" class="form-control" placeholder="ex: Wenniger 238">
+    </div> 
+    <div class="form-group">   
+        <label asp-for="DateMonth"></label>
+        <div class="input-group">
+            <input asp-for="DateMonth" class="form-control" placeholder="month">
+            <div class="input-group-append">
+                <span class="input-group-text">/</span>
+            </div>
+            <input asp-for="DateDay" class="form-control" placeholder="day">
+            <div class="input-group-append">
+                <span class="input-group-text">/</span>
+            </div>
+            <input asp-for="DateYear" class="form-control" placeholder="year">
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartHour"></label>
+        <div class="input-group">
+            <input asp-for="StartHour" class="form-control" value="" placeholder="hour">
+            <div class="input-group-append">
+                <span class="input-group-text">:</span>
+            </div>
+            <input asp-for="StartMin" class="form-control" value="" placeholder="minute">
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Duration"></label>
+        <input asp-for="Duration" class="form-control" value="" placeholder="hours">
+    </div>
+    <div class="form-group">
+        <label asp-for="Capacity"></label>
+        <input asp-for="Capacity" class="form-control" value="" placeholder="ex: 20">
+    </div>
+    <div class="form-group">
+        <label asp-for="Objectives"></label>
+        <input asp-for="Objectives" class="form-control" placeholder="ex: do example problems">
+    </div>
+    <input type="submit" value="Confirm" class="btn btn-primary">
+        <!-- view group is at http://localhost:5000/StudyGroup/view -->
 </form>
 
     <!-- The form should work once I have class info, and action location -->
