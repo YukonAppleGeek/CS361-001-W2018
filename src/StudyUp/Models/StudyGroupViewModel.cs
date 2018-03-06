@@ -21,6 +21,7 @@ namespace StudyUp.Models
         public bool HasJoined { get; set; }
 
         public int Id { get; set; }
+
         public bool IsCanceled { get; set; }
     }
 }

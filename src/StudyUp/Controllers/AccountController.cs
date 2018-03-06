@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -84,30 +85,52 @@ namespace StudyUp.Controllers
         }
 
         public async Task UpdateStudentRecord(JObject userInfo, string token) {
-            var student = db.Students.Find((int) userInfo.SelectToken("id"));
-            if (student == null) {
-                student = new Student() {
-                    Id = (int) userInfo["id"],
-                    Name = (string) userInfo["name"]
-                };
+            var student = new Student() {
+                Id = (int)userInfo["id"],
+                Name = (string)userInfo["name"]
+            };
 
+            var dbStudent = db.Students.Find((int)userInfo.SelectToken("id"));
+            if (dbStudent == null) {
                 db.Students.Add(student);
             }
 
             var jsonCourses = await CanvasApi.GetUserCourses(token);
-            var courses = jsonCourses.Select(i => new Course() {
-                Id = (int) i["id"],
-                Name = (string) i["name"],
-                StartDate = (DateTime?) i["term"]["start_at"],
-                EndDate = (DateTime) i["term"]["end_at"]
-            }).ToList();
-            db.Courses.AttachRange(courses);
+            var courses = new List<Course>();
+            foreach (var c in jsonCourses) {
+                try {
+                    courses.Add(new Course()
+                    {
+                        Id = (int)c.SelectToken("id"),
+                        Name = (string)c.SelectToken("name"),
+                        StartDate = (DateTime?)c.SelectToken("term.start_at"),
+                        EndDate = (DateTime)c.SelectToken("term.end_at")
+                    });
+                } catch (ArgumentNullException) {
+                    continue;
+                }
+            }
 
-            var studentCourse = courses.Select(course => new StudentCourse() {
+            foreach(var c in courses) {
+                var dbCourse = db.Courses.Find(c.Id);
+                if (dbCourse == null) {
+                    db.Courses.Add(c);
+                }
+            }
+
+            var studentCourses = courses.Select(course => new StudentCourse() {
                 StudentId = student.Id,
                 CourseId = course.Id
-            }).ToList();
-            db.StudentCourses.AttachRange(studentCourse);
+            });
+
+            foreach (var sc in studentCourses)
+            {
+                var dbSc = db.StudentCourses.Find(sc.CourseId, sc.StudentId);
+                if (dbSc == null)
+                {
+                    db.StudentCourses.Add(sc);
+                }
+            }
 
             await db.SaveChangesAsync();
         }

@@ -11,9 +11,10 @@ namespace StudyUp.Controllers
 {
     public class StudyGroupController : Controller
     {
-         private readonly StudyUpContext db;
+        private readonly StudyUpContext db;
 
-        public StudyGroupController(StudyUpContext dbContext) {
+        public StudyGroupController(StudyUpContext dbContext)
+        {
             db = dbContext;
         }
 
@@ -105,13 +106,3 @@ namespace StudyUp.Controllers
         }
     }
 }
-
-
-// var group = new StudyGroupViewModel(){
-//                 GroupTitle = "Software Engineering I Study",
-//                 Location = "KEC 1007",
-//                 DateTime = new DateTime(2018, 3, 4, 12, 30, 0, 1),
-//                 Duration = new TimeSpan(20, 0, 0),
-//                 Capacity = 5,
-//                 Objectives = "To create the StudyUp app and review for Quiz 3!"
-//             };
