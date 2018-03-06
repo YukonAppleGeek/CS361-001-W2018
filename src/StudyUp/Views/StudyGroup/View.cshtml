@@ -2,6 +2,11 @@
     <div class="row">
         <div class="col-sm-8">
             <h1>View Study Group</h1>
+            @if(Model.IsCanceled){
+                <div class="alert alert-danger" role="alert">
+                    Group has been canceled by the group's leader!
+                </div>
+            }
             <h4>@Model.GroupTitle</h2>
             
                 <h6><strong>Date:</strong> @Model.DateTime.ToString("MM/dd/yyy")</h6>
@@ -10,13 +15,24 @@
                 <h6><strong>Location:</strong> @Model.Location</h6>
                 <h6><strong>Group Capacity:</strong> @Model.Capacity</h6>
                 <h6><strong>Objectives:</strong> @Model.Objectives</h6>
-            
-            <div class="row justify-content-end">
-                <button type="button" class="btn btn-success m-1">Join</button>
-               @if(Model.IsOwner){
-                <button type="button" class="btn btn-secondary m-1">Edit</button>
-                <button type="button" class="btn btn-danger m-1">Cancel</button>}
+            @if(!Model.IsCanceled){
+                    <div class="row justify-content-end">
+                    @if(Model.IsOwner){
+                        <button type="button" class="btn btn-secondary m-1">Edit</button>
+                        <!-- <button type="button" class="btn btn-danger m-1">Cancel</button> -->
+                        @Html.ActionLink("Cancel","Cancel", new{id = Model.Id}, new{@class="btn btn-danger"})
+                    }
+                    @if(!Model.IsOwner && !Model.HasJoined){
+                        @Html.ActionLink("Join","Join", new{id = Model.Id}, new{@class="btn btn-success"})
+                        <!-- <button type="button" class="btn btn-success m-1">Join</button> -->
+                    }
+                    @if(!Model.IsOwner && Model.HasJoined){
+                        <!-- <button type="button" class="btn btn-warning m-1">Leave</button> -->
+                        @Html.ActionLink("Leave","Leave", new{id = Model.Id}, new{@class="btn btn-warning"})
+                    }
+                
             </div>
+            }
     </div>
 </div>
 

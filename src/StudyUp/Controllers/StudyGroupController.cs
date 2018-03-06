@@ -27,6 +27,45 @@ namespace StudyUp.Controllers
 
         }
 
+        public IActionResult Join(int Id){
+            //see if studyGroup id exists
+            var dbEntry = db.StudyGroups.Find(Id);
+            if(dbEntry == null) return RedirectToAction("Error"); 
+            //check to see if student id is not already in that study group
+            int UserId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value); //get user id 
+            if(db.StudentStudyGroups.Find(UserId, Id) != null) return RedirectToAction("View", new{id = Id});
+            //if both true, join that student
+            //if notfound == true && UserId not found, join(UserId)
+            db.StudentStudyGroups.Add(new StudentStudyGroup(){StudyGroupId = Id, StudentId = UserId});
+            db.SaveChanges();
+
+            return RedirectToAction("View", new{id = Id}); 
+        }
+
+        public IActionResult Leave(int Id){
+            //check to see if student id is not already in that study group
+            int UserId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value); //get user id 
+            var StudentMembership = db.StudentStudyGroups.Find(UserId, Id); 
+            if(StudentMembership == null) return RedirectToAction("View", new{id = Id});
+            //if both true, join that student
+            //if notfound == true && UserId not found, join(UserId)
+            db.StudentStudyGroups.Remove(StudentMembership);
+            db.SaveChanges();
+
+            return RedirectToAction("View", new{id = Id}); 
+        }
+
+        public IActionResult Cancel(int Id){
+            //set a "cancel" flag
+            //find record
+            var StudyGroup = db.StudyGroups.Find(Id);
+            //modify object
+            StudyGroup.Cancel = true; 
+            //update or save changes
+            db.SaveChanges();
+            return RedirectToAction("View", new{id = Id}); 
+        }
+
         [Authorize]
         public IActionResult View(int? Id = null)
         {
@@ -38,7 +77,9 @@ namespace StudyUp.Controllers
                 DateTime = dbEntry.StartTime,
                 Duration = dbEntry.Duration,
                 Capacity = dbEntry.Capacity,
-                Objectives = dbEntry.Objectives
+                Objectives = dbEntry.Objectives,
+                Id = dbEntry.Id,
+                IsCanceled = dbEntry.Cancel
             };
 
             int UserId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -46,13 +87,11 @@ namespace StudyUp.Controllers
             db.Entry(dbEntry).Reference(sg => sg.Owner);
             group.IsOwner = dbEntry.Owner == Stu; 
 
+            group.HasJoined = db.StudentStudyGroups.Find(UserId, Id) != null;
+        
             return View(group);
         }
 
-        public IActionResult Join()
-        {
-            throw new NotImplementedException();
-        }
 
         public IActionResult Create()
         {
