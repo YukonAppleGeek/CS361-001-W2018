@@ -3,25 +3,21 @@
 <h1> Create a Study Group </h1>
 <br>
 <h2> Pick a Class </h2>
- <!-- Need to have class info populated by account asp thing -->
- <!-- a for loop for number of classes, dynamically create a card for each class -->
-<!-- card deck
-    For account.numclasses or something
-        Card
-            title = account.class1.name or something
- -->
-
+<br>
+<div class="card-columns">
 @{
-    foreach (c in Model.Courses){
-    <p>c.Id</p>
-    <div class="card text-dark border-warning">
-      <div class="card-body">
-        <h4> CLASS idk how to wrap a variable </h4>
-        <a href="/StudyGroup/create/45" class="btn btn-primary">Select</a>    
-      </div> 
-    </div>  
+    foreach (var c in Model.Courses){
+        <div class="card text-dark border-warning" style="width: 14rem">
+        <div class="card-body">
+            <p>@c.Name</p>
+            <a href="@Url.Action("Create", new {Id = c.Id})" class="btn btn-primary">Select</a>    
+        </div> 
+        </div>  
+
     }
 }
+
+</div>
 
 <!-- 
 <div class="card-deck">

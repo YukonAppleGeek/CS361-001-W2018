@@ -102,14 +102,19 @@ namespace StudyUp.Controllers
                 var id = User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier);
                 var stu = db.Students.Find(int.Parse(id.Value));
                 db.Entry(stu).Collection(s => s.Courses);
+                var stu_courses = db.StudentCourses.Where(sc => sc.StudentId == stu.Id);
+                foreach (var sc in stu_courses)
+                {
+                    db.Entry(sc).Reference(p => p.Course);
+                }
                 var model = new ChooseCourseViewModel()
                 {
-                    Courses = (List<Course>)stu.Courses
+                    Courses = stu_courses.Select(s => s.Course).Where(l => l.EndDate > DateTime.Now).ToList()
                 };
                 return View("ChooseCourse", model);
             }
 
-            return View();
+            return View(new CreateCourseViewModel());
         }
 
         public IActionResult Error()
