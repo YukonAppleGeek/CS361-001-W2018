@@ -107,14 +107,41 @@ namespace StudyUp.Controllers
                 {
                     db.Entry(sc).Reference(p => p.Course);
                 }
+
                 var model = new ChooseCourseViewModel()
                 {
                     Courses = stu_courses.Select(s => s.Course).Where(l => l.EndDate > DateTime.Now).ToList()
                 };
+                
                 return View("ChooseCourse", model);
             }
 
-            return View(new CreateCourseViewModel());
+            var createModel = new CreateCourseViewModel();
+            createModel.DateDay = DateTime.Now.Day;
+            createModel.DateMonth = DateTime.Now.Month;
+            createModel.DateYear = DateTime.Now.Year;
+
+            return View(createModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateCourseViewModel model) {
+            var id = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
+            var student = db.Students.Find(id);
+            var studyGroup = new StudyGroup() {
+                Owner = student,
+                GroupTitle = model.Title,
+                Location = model.Location,
+                StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour, model.StartMin, 0),
+                Duration = new TimeSpan(model.Duration, 0, 0),
+                Capacity = model.Capacity,
+                Objectives = model.Objectives
+            };
+
+            db.StudyGroups.Add(studyGroup);
+            db.SaveChanges();
+
+            return RedirectToAction("View", new {Id = studyGroup.Id});
         }
 
         public IActionResult Error()
