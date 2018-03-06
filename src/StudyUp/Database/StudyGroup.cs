@@ -20,5 +20,6 @@ namespace StudyUp.Database
         public virtual Course Course { get; set; }
         public virtual Student Owner { get; set; }
         public virtual ICollection<StudentStudyGroup> Members { get; set; }
+        public bool Cancel { get; set; }
     }
 }

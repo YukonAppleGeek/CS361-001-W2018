@@ -15,5 +15,13 @@ namespace StudyUp.Models
         public int Capacity { get; set; }
 
         public string Objectives { get; set; }
+
+        public bool IsOwner { get; set; }
+
+        public bool HasJoined { get; set; }
+
+        public int Id { get; set; }
+
+        public bool IsCanceled { get; set; }
     }
 }
