@@ -1,8 +1,11 @@
 using System;
+using System.Linq;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using StudyUp.Database;
 using StudyUp.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace StudyUp.Controllers
 {
@@ -28,6 +31,16 @@ namespace StudyUp.Controllers
             return View(group);
         }
 
+        [Authorize]
+        public IActionResult Find()
+        {
+            var userid = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Single().Value;
+            var student = db.Students.Where(stud => stud.Id == 1).Single();
+            db.Entry(student).Collection(s => s.Courses).Load();
+            var model = new FindViewModel();  
+            model.Courses = student.Courses.Select(s=>s.Course).Where(l => l.EndDate > DateTime.Now).ToList();                        
+            return View(model);
+        }
         public IActionResult Join()
         {
             throw new NotImplementedException();
@@ -43,5 +56,7 @@ namespace StudyUp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             
         }
+
+       
     }
 }
