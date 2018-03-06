@@ -150,11 +150,12 @@ namespace StudyUp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateCourseViewModel model) {
-            var id = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
-            var student = db.Students.Find(id);
+        public IActionResult Create(int Id, CreateCourseViewModel model) {
+            var userId = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
+            var student = db.Students.Find(userId);
             var studyGroup = new StudyGroup() {
                 Owner = student,
+                CourseId = Id,
                 GroupTitle = model.Title,
                 Location = model.Location,
                 StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour, model.StartMin, 0),
