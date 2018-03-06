@@ -1,8 +1,23 @@
-<br>
-<h1> Find a Study Group </h1>
-<br>
+@model FindViewModel
+<h1 class="page-title">Find a Study Group</h1>
+
+@foreach(var courseStudyGroups in Model.Courses) {
+<div class="row-fluid">
+    <h3>@courseStudyGroups.Course.Name</h3>
+    <div class="card-columns">
+        @foreach(var studyGroup in courseStudyGroups.StudyGroups) {
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">@studyGroup.GroupTitle</h5>
+              @Html.ActionLink("View Study Group", "View", new {id = studyGroup.Id}, new{@class="btn btn-primary"})
+            </div>
+        </div>
+        }
+    </div>
+</div>
+}
 <!-- Tiles layout, how to dynamically create cards? -->
-<div class="card-deck">
+<!-- <div class="card-deck">
   <div class="card">
     <img class="card-img-top" src="..." alt="Card image cap">
     <div class="card-block">
@@ -36,4 +51,4 @@
       <small class="text-muted">Last updated 3 mins ago</small>
     </div>
   </div>
-</div>
+</div> -->
