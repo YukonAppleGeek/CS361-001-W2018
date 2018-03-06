@@ -123,9 +123,8 @@ namespace StudyUp.Controllers
                 CourseId = course.Id
             });
 
-            foreach (var sc in studentCourses)
-            {
-                var dbSc = db.StudentCourses.Find(sc.CourseId, sc.StudentId);
+            foreach (var sc in studentCourses) {
+                var dbSc = db.StudentCourses.Find(sc.StudentId, sc.CourseId);
                 if (dbSc == null)
                 {
                     db.StudentCourses.Add(sc);
