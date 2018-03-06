@@ -106,7 +106,7 @@ namespace StudyUp.Controllers
                         StartDate = (DateTime?)c.SelectToken("term.start_at"),
                         EndDate = (DateTime)c.SelectToken("term.end_at")
                     });
-                } catch (ArgumentNullException) {
+                } catch (Exception) {
                     continue;
                 }
             }

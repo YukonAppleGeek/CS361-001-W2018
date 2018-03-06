@@ -1,30 +1,23 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">StudyUp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Create <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Join</a>
-      </li>
-      <li class="nav-item" text-align:right </li>
-        <a class="nav-link" href="#">Logout</a>
-<!-- Align logout to the right?? -->
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
+@model FindViewModel
+<h1 class="page-title">Find a Study Group</h1>
 
+@foreach(var courseStudyGroups in Model.Courses) {
+<div class="row-fluid">
+    <h3>@courseStudyGroups.Course.Name</h3>
+    <div class="card-columns">
+        @foreach(var studyGroup in courseStudyGroups.StudyGroups) {
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">@studyGroup.GroupTitle</h5>
+              @Html.ActionLink("View Study Group", "View", new {id = studyGroup.Id}, new{@class="btn btn-primary"})
+            </div>
+        </div>
+        }
+    </div>
+</div>
+}
 <!-- Tiles layout, how to dynamically create cards? -->
-<div class="card-deck">
+<!-- <div class="card-deck">
   <div class="card">
     <img class="card-img-top" src="..." alt="Card image cap">
     <div class="card-block">
@@ -58,4 +51,4 @@
       <small class="text-muted">Last updated 3 mins ago</small>
     </div>
   </div>
-</div>
+</div> -->
