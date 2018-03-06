@@ -5,6 +5,14 @@ namespace StudyUp.Models
 {
     public class FindViewModel
     {
-        public List<Database.Course> Courses { get;set; }
+        public List<CourseStudyGroups> Courses { get;set; }
+
+        public class CourseStudyGroups
+        {
+            public Database.Course Course { get;set; }
+            public List<Database.StudyGroup> StudyGroups { get;set; }
+        }
     }
+
+
 }

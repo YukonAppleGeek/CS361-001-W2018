@@ -6,6 +6,7 @@ using StudyUp.Database;
 using StudyUp.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace StudyUp.Controllers
 {
@@ -31,14 +32,39 @@ namespace StudyUp.Controllers
             return View(group);
         }
 
+// This is to test adding and pulling stuff from the database to text the View UI 
+            public IActionResult testData()
+            {
+                var MyStudent = db.Students.Find(6089447);
+                var Course = db.Courses.Find(1662157);
+                var StudyGroup = new StudyGroup(){GroupTitle = "Web Dev Study Group", Owner = MyStudent,Course=Course};
+                db.StudyGroups.Add(StudyGroup);
+                db.SaveChanges(); 
+                return NotFound();
+            }
+            
+
         [Authorize]
         public IActionResult Find()
         {
-            var userid = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Single().Value;
-            var student = db.Students.Where(stud => stud.Id == 1).Single();
+            var userid = int.Parse(User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Single().Value);
+            var student = db.Students.Find(userid);
             db.Entry(student).Collection(s => s.Courses).Load();
             var model = new FindViewModel();  
-            model.Courses = student.Courses.Select(s=>s.Course).Where(l => l.EndDate > DateTime.Now).ToList();                        
+            model.Courses = new List<FindViewModel.CourseStudyGroups>();
+            foreach (var c in student.Courses)
+            {
+                db.Entry(c).Reference(p => p.Course).Load();
+            }
+            var Courses = student.Courses.Select(s=>s.Course).Where(l => l.EndDate > DateTime.Now).ToList();                        
+            foreach (var sc in Courses)
+            {
+                var ststudygroups = db.StudyGroups.Where(s=>s.Course.Id == sc.Id).ToList();
+                var var1 = new FindViewModel.CourseStudyGroups();
+                var1.Course = sc;
+                var1.StudyGroups = ststudygroups;
+                model.Courses.Add(var1);
+            }
             return View(model);
         }
         public IActionResult Join()
