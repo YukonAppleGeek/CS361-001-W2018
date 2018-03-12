@@ -110,7 +110,7 @@ namespace StudyUp.Controllers
             var Courses = student.Courses.Select(s=>s.Course).Where(l => l.EndDate > DateTime.Now).ToList();                        
             foreach (var sc in Courses)
             {
-                var ststudygroups = db.StudyGroups.Where(s=>s.Course.Id == sc.Id).ToList();
+                var ststudygroups = db.StudyGroups.Where(s=> s.Course.Id == sc.Id && s.StartTime > DateTime.Now).ToList();
                 var var1 = new FindViewModel.CourseStudyGroups();
                 var1.Course = sc;
                 var1.StudyGroups = ststudygroups;
