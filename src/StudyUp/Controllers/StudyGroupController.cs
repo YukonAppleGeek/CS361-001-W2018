@@ -151,6 +151,10 @@ namespace StudyUp.Controllers
 
         [HttpPost]
         public IActionResult Create(int Id, CreateCourseViewModel model) {
+            if (ModelState.ErrorCount > 0) {
+                return View(model);
+            }
+
             var userId = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
             var student = db.Students.Find(userId);
             var studyGroup = new StudyGroup() {
@@ -158,7 +162,7 @@ namespace StudyUp.Controllers
                 CourseId = Id,
                 GroupTitle = model.Title,
                 Location = model.Location,
-                StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour, model.StartMin, 0),
+                StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour + (model.StartTimePm ? 12 : 0), model.StartMin, 0),
                 Duration = new TimeSpan(model.Duration, 0, 0),
                 Capacity = model.Capacity,
                 Objectives = model.Objectives
