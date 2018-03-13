@@ -3,6 +3,9 @@
     if (ViewData["Title"] == null) {
         ViewData["Title"] = "Create a Study Group";
     }
+    if (ViewData["Action"] == null) {
+        ViewData["Action"] = "Create";
+    }
 }
 
 <h1 class="page-title">@ViewData["Title"]</h1>
@@ -13,7 +16,7 @@
                 Please fill out the required fields.
             </div>
         }
-        <form asp-antiforgery="true" asp-controller="StudyGroup" asp-action="Create">
+        <form asp-antiforgery="true" asp-controller="StudyGroup" asp-action="@ViewData["Action"]">
             <div class="form-group"> <br>
                 <label asp-for="Title"></label>
                 <input asp-for="Title" class="form-control" placeholder="ex: Midterm Study">
