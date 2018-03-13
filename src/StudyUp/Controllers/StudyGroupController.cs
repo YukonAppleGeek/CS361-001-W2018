@@ -121,7 +121,7 @@ namespace StudyUp.Controllers
 
         public IActionResult Edit(int Id) {
             var EditGroup = db.StudyGroups.Find(Id);
-            var createModel = new CreateCourseViewModel(){
+            var createModel = new CreateViewModel(){
                 DateDay = EditGroup.StartTime.Day,
                 DateMonth = EditGroup.StartTime.Month,
                 DateYear = EditGroup.StartTime.Year,
@@ -138,7 +138,7 @@ namespace StudyUp.Controllers
         }
 
         [HttpPost]     
-          public IActionResult Edit(int Id, CreateCourseViewModel model){    //Adding capability to edit form
+          public IActionResult Edit(int Id, CreateViewModel model){    //Adding capability to edit form
             var userId = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
             var student = db.Students.Find(userId);
             var studyGroup = new StudyGroup() {
@@ -146,9 +146,9 @@ namespace StudyUp.Controllers
                 CourseId = Id,
                 GroupTitle = model.Title,
                 Location = model.Location,
-                StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour, model.StartMin, 0),
-                Duration = new TimeSpan(model.Duration, 0, 0),
-                Capacity = model.Capacity,
+                StartTime = new DateTime(model.DateYear.Value, model.DateMonth.Value, model.DateDay.Value, model.StartHour.Value, model.StartMin.Value, 0),
+                Duration = new TimeSpan(model.Duration.Value, 0, 0),
+                Capacity = model.Capacity.Value,
                 Objectives = model.Objectives
             };
 
