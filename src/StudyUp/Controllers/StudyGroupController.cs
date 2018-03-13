@@ -119,6 +119,46 @@ namespace StudyUp.Controllers
             return View(model);
         }
 
+        public IActionResult Edit(int Id) {
+            var EditGroup = db.StudyGroups.Find(Id);
+            var createModel = new CreateCourseViewModel(){
+                DateDay = EditGroup.StartTime.Day,
+                DateMonth = EditGroup.StartTime.Month,
+                DateYear = EditGroup.StartTime.Year,
+                Title = EditGroup.GroupTitle,
+                Location = EditGroup.Location,
+                Duration = EditGroup.Duration.Hours,
+                Capacity = EditGroup.Capacity,
+                Objectives = EditGroup.Objectives,
+                StartHour = EditGroup.StartTime.Hour,
+                StartMin = EditGroup.StartTime.Minute
+            };
+
+            return View("Create", createModel);
+        }
+
+        [HttpPost]     
+          public IActionResult Edit(int Id, CreateCourseViewModel model){    //Adding capability to edit form
+            var userId = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
+            var student = db.Students.Find(userId);
+            var studyGroup = new StudyGroup() {
+                Owner = student,
+                CourseId = Id,
+                GroupTitle = model.Title,
+                Location = model.Location,
+                StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour, model.StartMin, 0),
+                Duration = new TimeSpan(model.Duration, 0, 0),
+                Capacity = model.Capacity,
+                Objectives = model.Objectives
+            };
+
+            db.StudyGroups.Add(studyGroup);
+            db.SaveChanges();
+
+            return RedirectToAction("View", new {Id = studyGroup.Id});
+            //return View("Edit", model); 
+         }
+
         [Authorize]
         public IActionResult Create(int? Id = null)
         {
