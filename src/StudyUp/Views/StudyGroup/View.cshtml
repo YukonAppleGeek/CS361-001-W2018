@@ -8,27 +8,23 @@
                 </div>
             }
             <h4>@Model.GroupTitle</h2>
-            
+                <h6><strong>Course:</strong> @Model.Course</h6>
                 <h6><strong>Date:</strong> @Model.DateTime.ToShortDateString()</h6>
                 <h6><strong>Time:</strong> @Model.DateTime.ToShortTimeString()</h6> 
                 <h6><strong>Duration:</strong> @Model.Duration.Hours hour(s)</h6>  
                 <h6><strong>Location:</strong> @Model.Location</h6>
-                <h6><strong>Group Capacity:</strong> @Model.Capacity</h6>
+                <h6><strong>Group Capacity:</strong> @Model.MemberCount of @Model.Capacity</h6>
                 <h6><strong>Objectives:</strong> @Model.Objectives</h6>
             @if(!Model.IsCanceled){
                     <div class="row justify-content-end">
                     @if(Model.IsOwner){
-                        <!-- <button type="button" class="btn btn-secondary m-1">Edit</button> -->
-                        <!-- <button type="button" class="btn btn-danger m-1">Cancel</button> -->
                         @Html.ActionLink("Edit","Edit", new{id = Model.Id}, new{@class="btn btn-secondary"})
                         @Html.ActionLink("Cancel","Cancel", new{id = Model.Id}, new{@class="btn btn-danger"})
                     }
                     @if(!Model.IsOwner && !Model.HasJoined){
                         @Html.ActionLink("Join","Join", new{id = Model.Id}, new{@class="btn btn-success"})
-                        <!-- <button type="button" class="btn btn-success m-1">Join</button> -->
                     }
                     @if(!Model.IsOwner && Model.HasJoined){
-                        <!-- <button type="button" class="btn btn-warning m-1">Leave</button> -->
                         @Html.ActionLink("Leave","Leave", new{id = Model.Id}, new{@class="btn btn-warning"})
                     }
                 

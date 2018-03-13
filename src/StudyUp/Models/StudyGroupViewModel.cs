@@ -23,5 +23,8 @@ namespace StudyUp.Models
         public int Id { get; set; }
 
         public bool IsCanceled { get; set; }
+
+        public int MemberCount { get; set; }
+        public string Course { get; set; }
     }
 }

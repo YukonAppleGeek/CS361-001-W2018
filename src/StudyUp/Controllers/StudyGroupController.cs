@@ -30,6 +30,7 @@ namespace StudyUp.Controllers
             return NotFound();
         }
 
+        [Authorize]
         public IActionResult Join(int Id){
             //see if studyGroup id exists
             var dbEntry = db.StudyGroups.Find(Id);
@@ -45,6 +46,7 @@ namespace StudyUp.Controllers
             return RedirectToAction("View", new{id = Id}); 
         }
 
+        [Authorize]
         public IActionResult Leave(int Id){
             //check to see if student id is not already in that study group
             int UserId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value); //get user id 
@@ -58,6 +60,7 @@ namespace StudyUp.Controllers
             return RedirectToAction("View", new{id = Id}); 
         }
 
+        [Authorize]
         public IActionResult Cancel(int Id){
             //set a "cancel" flag
             //find record
@@ -70,9 +73,11 @@ namespace StudyUp.Controllers
         }
 
         [Authorize]
-        public IActionResult View(int? Id = null)
+        public IActionResult View(int Id)
         {
             var dbEntry = db.StudyGroups.Find(Id);
+            db.Entry(dbEntry).Collection(i => i.Members).Load();
+             db.Entry(dbEntry).Reference(i => i.Course).Load();
             if(dbEntry == null) return NotFound();
             var group = new StudyGroupViewModel(){
                 GroupTitle = dbEntry.GroupTitle,
@@ -82,7 +87,9 @@ namespace StudyUp.Controllers
                 Capacity = dbEntry.Capacity,
                 Objectives = dbEntry.Objectives,
                 Id = dbEntry.Id,
-                IsCanceled = dbEntry.Cancel
+                IsCanceled = dbEntry.Cancel,
+                MemberCount = dbEntry.Members.Count,
+                Course = dbEntry.Course.NameWithoutCourseId.ToTitleCase()
             };
 
             int UserId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -130,34 +137,32 @@ namespace StudyUp.Controllers
                 Duration = EditGroup.Duration.Hours,
                 Capacity = EditGroup.Capacity,
                 Objectives = EditGroup.Objectives,
-                StartHour = EditGroup.StartTime.Hour,
-                StartMin = EditGroup.StartTime.Minute
+                StartHour = EditGroup.StartTime.Hour > 12 ? EditGroup.StartTime.Hour - 12 : EditGroup.StartTime.Hour,
+                StartMin = EditGroup.StartTime.Minute,
+                StartTimePm = EditGroup.StartTime.Hour > 12
             };
 
+
+            ViewData["Title"] = "Edit Study Group";
+            ViewData["Action"] = "Edit";
             return View("Create", createModel);
         }
 
         [HttpPost]     
-          public IActionResult Edit(int Id, CreateViewModel model){    //Adding capability to edit form
-            var userId = int.Parse(User.Claims.Single(s => s.Type == ClaimTypes.NameIdentifier).Value);
-            var student = db.Students.Find(userId);
-            var studyGroup = new StudyGroup() {
-                Owner = student,
-                CourseId = Id,
-                GroupTitle = model.Title,
-                Location = model.Location,
-                StartTime = new DateTime(model.DateYear.Value, model.DateMonth.Value, model.DateDay.Value, model.StartHour.Value, model.StartMin.Value, 0),
-                Duration = new TimeSpan(model.Duration.Value, 0, 0),
-                Capacity = model.Capacity.Value,
-                Objectives = model.Objectives
-            };
+        public IActionResult Edit(int Id, CreateViewModel model){    //Adding capability to edit form
+            var studyGroup = db.StudyGroups.Find(Id);
+            studyGroup.GroupTitle = model.Title;
+            studyGroup.Location = model.Location;
+            studyGroup.StartTime = new DateTime(model.DateYear.Value, model.DateMonth.Value, model.DateDay.Value, model.StartHour.Value + (model.StartTimePm ? 12 : 0), model.StartMin.Value, 0);
+            studyGroup.Duration = new TimeSpan(model.Duration.Value, 0, 0);
+            studyGroup.Capacity = model.Capacity.Value;
+            studyGroup.Objectives = model.Objectives;
 
-            db.StudyGroups.Add(studyGroup);
+            db.StudyGroups.Update(studyGroup); //find data bas e entry, update to all values in model, then save changes (update all vals entity)
             db.SaveChanges();
 
             return RedirectToAction("View", new {Id = studyGroup.Id});
-            //return View("Edit", model); 
-         }
+        }
 
         [Authorize]
         public IActionResult Create(int? Id = null)
