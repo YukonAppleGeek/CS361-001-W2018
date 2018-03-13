@@ -1,54 +1,29 @@
 @model FindViewModel
-<h1 class="page-title">Find a Study Group</h1>
+@{
+    ViewData["Title"] = "Find a Study Group";
+}
 
+<h1 class="page-title">Find a Study Group</h1>
 @foreach(var courseStudyGroups in Model.Courses) {
 <div class="row-fluid">
-    <h3>@courseStudyGroups.Course.Name</h3>
+    <h3>@courseStudyGroups.Course.NameWithoutCourseId.ToTitleCase()</h3>
+    @if (courseStudyGroups.StudyGroups.Count == 0) {
+        <p><i>No study groups found.</i></p>
+        <p>@Html.ActionLink("Create One", "Create", new {id = courseStudyGroups.Course.Id}, new{@class="btn btn-primary"})</p>
+    }
     <div class="card-columns">
         @foreach(var studyGroup in courseStudyGroups.StudyGroups) {
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title">@studyGroup.GroupTitle</h5>
-              @Html.ActionLink("View Study Group", "View", new {id = studyGroup.Id}, new{@class="btn btn-primary"})
+                <h5 class="card-title">@studyGroup.GroupTitle</h5>
+                <p>
+                    @studyGroup.StartTime.ToLongDateString() at @studyGroup.StartTime.ToShortTimeString()
+                    Location: @studyGroup.Location
+                </p>
+                @Html.ActionLink("View Study Group", "View", new {id = studyGroup.Id}, new{@class="btn btn-primary"})
             </div>
         </div>
         }
     </div>
 </div>
 }
-<!-- Tiles layout, how to dynamically create cards? -->
-<!-- <div class="card-deck">
-  <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-block">
-      <h4 class="card-title">
-      <a href="#" class="btn btn-primary">Group 1</a>
-      </h4>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div>
-  <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-block">
-      <h4 class="card-title">
-      <a href="#" class="btn btn-primary">Group 2</a>
-      </h4>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div>
-  <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-block">
-      <h4 class="card-title">
-      <a href="#" class="btn btn-primary">Group 3</a>
-      </h4>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div>
-</div> -->

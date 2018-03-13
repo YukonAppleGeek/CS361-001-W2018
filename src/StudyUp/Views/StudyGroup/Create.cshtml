@@ -1,57 +1,70 @@
-<!-- IDK WHERE TO PUT THIS KEY 1002~4qG4yPJXjgt3kTYp4kPacsTpA3wixyjhBytCjaKjtSRyFh9GYT8r82NHDyDe22xz -->
-@model CreateCourseViewModel
-<h1> Create a Study Group </h1>
-<h2>Please enter remaining info </h2> <br>
+@model CreateViewModel
+@{
+    if (ViewData["Title"] == null) {
+        ViewData["Title"] = "Create a Study Group";
+    }
+}
 
-<form asp-antiforgery="true" asp-controller="StudyGroup" asp-action="Create">  
-    <!-- Not sure if I need to use the account controller or just need to send it to view page -->
-    <div class="form-group"> <br>
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" placeholder="ex: Midterm Study">
-    </div>
-    <div class="form-group">   
-        <label asp-for="Location"></label>
-        <input asp-for="Location" class="form-control" placeholder="ex: Wenniger 238">
-    </div> 
-    <div class="form-group">   
-        <label asp-for="DateMonth"></label>
-        <div class="input-group">
-            <input asp-for="DateMonth" class="form-control" placeholder="month">
-            <div class="input-group-append">
-                <span class="input-group-text">/</span>
+<h1 class="page-title">@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-sm-6">
+        @if (!ViewData.ModelState.IsValid) {
+            <div class="alert alert-danger" role="alert">
+                Please fill out the required fields.
             </div>
-            <input asp-for="DateDay" class="form-control" placeholder="day">
-            <div class="input-group-append">
-                <span class="input-group-text">/</span>
+        }
+        <form asp-antiforgery="true" asp-controller="StudyGroup" asp-action="Create">
+            <div class="form-group"> <br>
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" placeholder="ex: Midterm Study">
             </div>
-            <input asp-for="DateYear" class="form-control" placeholder="year">
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="StartHour"></label>
-        <div class="input-group">
-            <input asp-for="StartHour" class="form-control" value="" placeholder="hour">
-            <div class="input-group-append">
-                <span class="input-group-text">:</span>
+            <div class="form-group">   
+                <label asp-for="Location"></label>
+                <input asp-for="Location" class="form-control" placeholder="ex: Wenniger 238">
+            </div> 
+            <div class="form-group">   
+                <label>Start Date</label>
+                <div class="input-group">
+                    <input asp-for="DateMonth" class="form-control" placeholder="Month">
+                    <div class="input-group-append">
+                        <span class="input-group-text">/</span>
+                    </div>
+                    <input asp-for="DateDay" class="form-control" placeholder="Day">
+                    <div class="input-group-append">
+                        <span class="input-group-text">/</span>
+                    </div>
+                    <input asp-for="DateYear" class="form-control" placeholder="Year">
+                </div>
             </div>
-            <input asp-for="StartMin" class="form-control" value="" placeholder="minute">
-        </div>
+            <div class="form-group">
+                <label>Start Time</label>
+                <div class="input-group">
+                    <input asp-for="StartHour" class="form-control" placeholder="Hour">
+                    <div class="input-group-append">
+                        <span class="input-group-text">:</span>
+                    </div>
+                    <input asp-for="StartMin" class="form-control" placeholder="Minute">
+                    <div style="width:4em">
+                        <select asp-for="StartTimePm" class="form-control">
+                            <option value="false">AM</option>
+                            <option value="true">PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration"></label>
+                <input asp-for="Duration" class="form-control"  placeholder="Hours">
+            </div>
+            <div class="form-group">
+                <label asp-for="Capacity"></label>
+                <input asp-for="Capacity" class="form-control" placeholder="ex: 20">
+            </div>
+            <div class="form-group">
+                <label asp-for="Objectives"></label>
+                <input asp-for="Objectives" class="form-control" placeholder="ex: Do example problems.">
+            </div>
+            <input type="submit" value="Confirm" class="btn btn-primary">
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Duration"></label>
-        <input asp-for="Duration" class="form-control" value="" placeholder="hours">
-    </div>
-    <div class="form-group">
-        <label asp-for="Capacity"></label>
-        <input asp-for="Capacity" class="form-control" value="" placeholder="ex: 20">
-    </div>
-    <div class="form-group">
-        <label asp-for="Objectives"></label>
-        <input asp-for="Objectives" class="form-control" placeholder="ex: do example problems">
-    </div>
-    <input type="submit" value="Confirm" class="btn btn-primary">
-        <!-- view group is at http://localhost:5000/StudyGroup/view -->
-</form>
-
-    <!-- The form should work once I have class info, and action location -->
-    <!-- I just need to add "asp-" before the for in label to input class info -->
+</div>
