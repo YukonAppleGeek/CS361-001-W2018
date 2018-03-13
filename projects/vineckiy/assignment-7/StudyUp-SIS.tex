@@ -1,0 +1,105 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\title{StudyUp - SIS}
+
+\author[1]{Yukon Vinecki}
+\author[2]{Chandler Petersen}
+%\author[3]{Calvin Todorovich}
+%\author[4]{Moyez Ikhlas}
+\affil[1]{vineckiy, EECS - Oregon State University}
+\affil[2]{petercha, EECS - Oregon State University}
+%\affil[3]{todorovc, EECS - Oregon State University}
+%\affil[4]{ikhlasm, EECS - Oregon State University}
+
+\usepackage[parfill]{parskip}
+\begin{document}
+
+\pagenumbering{roman}
+\maketitle
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Product Release}
+
+The website is accessible at \url{https://studyup.yukon.io/}. To test the website with sample data the access token "demo" may be used.
+% paste URL here
+% Need to make sure we have a README in the repo with how to run our program. 
+
+\section{User Story}
+\subsection{Implement a Welcome Page}
+The welcome page replaces the default home page with a message about what StudyUp is and its purpose. This was developed by Yukon with some content help from Chandler during our Friday meeting. The two tasks for this story were creating the page and making it replace default home page when not logged in. These tasks combined took less than an hour to implement and test. This story was completed and added to the final project.
+
+\subsection{Add More Information to the Find Page}
+This user story expended on the find user story to add more information and improve the UI of the find page. This was implemented by Yukon with a review from Chandler. The tasks were to add the start time and location to the group card, show message if course has no study group, and make course titles more readable. These tasks were completed in an hour and were reviewed with Chandler, completing this user story.
+
+\subsection{Add User Privileges to View UI and Update Database}
+The View UI has different button options depending and on the type of user. If the user is the study group administrator, they will have the ability to edit the group form, and/or cancel the group. The typical user will not have these options. Alternatively, if the user has already joined the group, they will not have the option to join again, only leave. And visa versa, if they have not yet joined, they will not have the option to leave the group.
+
+Chandler and Yukon worked on this user story. Chandler was the driver in the pair, with Yukon the co-pilot. Chandler coded while Yukon gave opinions and guidance throughout. There was initially a problem with testing the changes made, but this was resolved by manually adding users to the database to test privileges in different scenarios. There were three major tasks in this user story. The first was implementing the cancel/edit options for the study group administrator, the second was implementing the join/leave options for the typical user, and the third was making sure when pressing these buttons, the database got updated. The first two tasks took about an hour each, and the final task, about a half hour to implement. Currently, this user story is almost entirely implemented and tested. 
+
+There are only a few more things to be completed for this user story, namely, making the Time and Duration output look more user friendly, create the Edit page based off of the Create UI, and make sure that the database is update user counts when users join and leave a group. 
+
+\subsection{Have a User-friendly Create UI}
+Yukon and Chandler worked on this user story. Yukon was the driver with Chandler the co-pilot. Yukon coded while Chandler gave opinions and insight throughout the paired-programming session. The only problems encountered throughout the process was in determining what elements to add to the existing functioning UI in order to make it as user friendly as possible.
+
+There were 6 changes to the UI that was determined to make it more user friendly: making the spacing uniform for the course-card lists, title-case for the course names, adding AM/PM to the times, shrinking the user-input fields to a more reasonable size, make the "objectives" section a multi-line text box, and making the field labels more user friendly. These changes were all primarily aesthetic and organizational changes, and therefore were not difficult to fix. Each task took roughly 10 minutes on average to complete, totaling about an hour of work. This user story is now entirely completed and tested. 
+
+\section{Design Changes and Rationale}
+We asked the customer what additional user stories needed to be added. The customer gave us a list, which include the user stories outlined in the previous section of this report. These include, "Have a user friendly create UI," "add user-privileges to view UI and update database," "add additional information to the find page," and "implement a welcome page." We handled these requirement changes as outlined in the User Stories section. Some of these user stories, such as the Welcome page and the additional requirements imposed on the View UI, were given top priority by the customer, and therefore we sought to implement these changes first. These user stories were added to our original list of user stories to implement, and so our list of stories remains the same length, only with some new additions. 
+
+\section{Refactoring}
+We did not refactor. We are currently in the late-stages of implementation and any refactoring at this point would be adverse to the goal of finishing the project. Additionally, we took great efforts in initial implementation to make our code readable and maintainable, so that little to no refactoring would be necessary. 
+
+\clearpage
+\section{Tests}
+\subsection{Test 1}
+Test Design: Create a study group, does it appear on the Find UI? This test involves the integration of the Create and the Find UI modules. Essentially, this test involves creating a new study group and then checking to see if the new study group appears as an active study group in the Find UI.
+
+Test Execution: This was tested by creating a new study group and filling out the required information, checking the database to make sure the group has been successfully created, then navigating to the Find UI to see if that group shows up. 
+
+Test Results: We found that once a group was created, it did show up on the Find UI as an active study group, with the relevant group data reflected in the database.
+
+Conclusions: From the test results, we can conclude that the Create and Find UIs are successfully integrated. The integration test has been passed. 
+
+\subsection{Test 2}
+Test Design: After logging into the website does the find page show their current classes? This involves the authentication module communicating with the canvas api, then adding there classes to the database. The classes should then be shown on the find page that pulls the classes from the database.
+
+Test Execution: After the user has logged in they are redirected to the find page and shown their class list.
+
+Test Results: The class list shown matches with their current classes, passing the integration test.
+
+\subsection{Test 3}
+Test Design: After filling out the Create Group Form, is the related study group information displayed in the View UI for that study group? This test involves creating a new study group and filling out all the data for that group in the form, then confirming the group. This should navigate you to the View UI where all of the information that was filled out should be summarized.
+
+Test Execution: After the user fills out the create group form and hits the confirm button, they were navigated to the View UI. 
+
+Test Results: After being navigated to the View UI, upon inspection, the data of the newly created study group was reflected.
+
+Conclusions: From the test results, we can conclude that the Create Study Group Form module and the View UI module are successfully integrated. The integration test has been passed.
+
+\clearpage
+\section{Meeting Report}
+Chandler and Yukon initially met on Monday in order to work on implementation of the user stories as outlined by the customer, as well as divide up tasks for the coming week. They then met again on Friday to go over the current state of the project and what needs to be completed for the final implementation. Issues were created on the GitHub project to track tasks left to do.
+
+Yukon and Chandler worked entirely on the project this week and were able to meet with the customer (themselves) to go over the state of the project and discuss what still needs to be implemented. We feel that the customer is being very reasonable about the tasks that still need to be completed.
+
+This week, the Welcome page was implemented, more information about individual study groups was added to the Find UI, user privileges were implemented on the View UI (also updating the database), and the Create UI was made more user friendly. 
+
+The goals for next week are to ensure that past study groups are inactive, continue to test that the database accurately reflects what the users do on the UI, and implement an Edit page that links to the View UI. We expect to complete the remaining user stories listed above by Thursday (3/15/18). We will allot 2 hours for study group inactivity, 2 hours for testing the database, and 1 hour for completing the Edit page. This will likely take place over the span of 3 meeting sessions. 
+
+\end{document}
