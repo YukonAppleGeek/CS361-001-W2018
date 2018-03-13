@@ -1,9 +1,11 @@
-@model CreateCourseViewModel
+@model CreateViewModel
 @{
-    ViewData["Title"] = "Create a Study Group";
+    if (ViewData["Title"] == null) {
+        ViewData["Title"] = "Create a Study Group";
+    }
 }
 
-<h1 class="page-title">Create a Study Group</h1>
+<h1 class="page-title">@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-sm-6">
         @if (!ViewData.ModelState.IsValid) {
@@ -37,11 +39,11 @@
             <div class="form-group">
                 <label>Start Time</label>
                 <div class="input-group">
-                    <input @(Model.StartHour == 0 ? "value" : string.Empty) asp-for="StartHour" class="form-control" placeholder="Hour">
+                    <input asp-for="StartHour" class="form-control" placeholder="Hour">
                     <div class="input-group-append">
                         <span class="input-group-text">:</span>
                     </div>
-                    <input @(Model.StartMin == 0 ? "value" : string.Empty) asp-for="StartMin" class="form-control" placeholder="Minute">
+                    <input asp-for="StartMin" class="form-control" placeholder="Minute">
                     <div style="width:4em">
                         <select asp-for="StartTimePm" class="form-control">
                             <option value="false">AM</option>
@@ -52,11 +54,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Duration"></label>
-                <input @(Model.Duration == 0 ? "value" : string.Empty) asp-for="Duration" class="form-control"  placeholder="Hours">
+                <input asp-for="Duration" class="form-control"  placeholder="Hours">
             </div>
             <div class="form-group">
                 <label asp-for="Capacity"></label>
-                <input @(Model.Capacity == 0 ? "value" : string.Empty) asp-for="Capacity" class="form-control" placeholder="ex: 20">
+                <input asp-for="Capacity" class="form-control" placeholder="ex: 20">
             </div>
             <div class="form-group">
                 <label asp-for="Objectives"></label>

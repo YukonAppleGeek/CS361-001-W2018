@@ -141,7 +141,7 @@ namespace StudyUp.Controllers
                 return View("ChooseCourse", model);
             }
 
-            var createModel = new CreateCourseViewModel();
+            var createModel = new CreateViewModel();
             createModel.DateDay = DateTime.Now.Day;
             createModel.DateMonth = DateTime.Now.Month;
             createModel.DateYear = DateTime.Now.Year;
@@ -150,7 +150,7 @@ namespace StudyUp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(int Id, CreateCourseViewModel model) {
+        public IActionResult Create(int Id, CreateViewModel model) {
             if (ModelState.ErrorCount > 0) {
                 return View(model);
             }
@@ -162,13 +162,21 @@ namespace StudyUp.Controllers
                 CourseId = Id,
                 GroupTitle = model.Title,
                 Location = model.Location,
-                StartTime = new DateTime(model.DateYear, model.DateMonth, model.DateDay, model.StartHour + (model.StartTimePm ? 12 : 0), model.StartMin, 0),
-                Duration = new TimeSpan(model.Duration, 0, 0),
-                Capacity = model.Capacity,
+                StartTime = new DateTime(model.DateYear.Value, model.DateMonth.Value, model.DateDay.Value, model.StartHour.Value + (model.StartTimePm ? 12 : 0), model.StartMin.Value, 0),
+                Duration = new TimeSpan(model.Duration.Value, 0, 0),
+                Capacity = model.Capacity.Value,
                 Objectives = model.Objectives
             };
 
             db.StudyGroups.Add(studyGroup);
+            db.SaveChanges();
+
+            var studentStudyGroup = new StudentStudyGroup() {
+                Student = student,
+                StudyGroup = studyGroup
+            };
+
+            db.StudentStudyGroups.Add(studentStudyGroup);
             db.SaveChanges();
 
             return RedirectToAction("View", new {Id = studyGroup.Id});
