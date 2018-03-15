@@ -13,6 +13,4 @@ namespace StudyUp.Models
             public List<Database.StudyGroup> StudyGroups { get;set; }
         }
     }
-
-
 }
