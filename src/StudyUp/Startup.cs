@@ -29,6 +29,7 @@ namespace StudyUp
         {
             services.AddMvc();
             services.AddDbContext<StudyUpContext>(options => options.UseSqlite("Data Source=studyup.db"));
+            services.AddTransient<IClock, SystemClock>();
             
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
