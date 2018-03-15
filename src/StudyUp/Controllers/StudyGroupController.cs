@@ -19,17 +19,6 @@ namespace StudyUp.Controllers
             db = dbContext;
         }
 
-        // This is to test adding and pulling stuff from the database to text the View UI 
-        public IActionResult testData()
-        {
-            var MyStudent = db.Students.Find(6089447);
-            var Course = db.Courses.Find(1662157);
-            var StudyGroup = new StudyGroup(){GroupTitle = "Web Dev Study Group", Owner = MyStudent,Course=Course};
-            db.StudyGroups.Add(StudyGroup);
-            db.SaveChanges(); 
-            return NotFound();
-        }
-
         [Authorize]
         public IActionResult Join(int Id){
             //see if studyGroup id exists
