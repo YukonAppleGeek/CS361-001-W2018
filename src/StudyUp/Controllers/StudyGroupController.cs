@@ -13,22 +13,14 @@ namespace StudyUp.Controllers
     public class StudyGroupController : Controller
     {
         private readonly StudyUpContext db;
+        private readonly IClock clock;
 
-        public StudyGroupController(StudyUpContext dbContext)
+        public StudyGroupController(StudyUpContext dbContext, IClock clock)
         {
             db = dbContext;
+            this.clock = clock;
         }
 
-        // This is to test adding and pulling stuff from the database to text the View UI 
-        public IActionResult testData()
-        {
-            var MyStudent = db.Students.Find(6089447);
-            var Course = db.Courses.Find(1662157);
-            var StudyGroup = new StudyGroup(){GroupTitle = "Web Dev Study Group", Owner = MyStudent,Course=Course};
-            db.StudyGroups.Add(StudyGroup);
-            db.SaveChanges(); 
-            return NotFound();
-        }
 
         [Authorize]
         public IActionResult Join(int Id){
@@ -114,10 +106,10 @@ namespace StudyUp.Controllers
             {
                 db.Entry(c).Reference(p => p.Course).Load();
             }
-            var Courses = student.Courses.Select(s=>s.Course).Where(l => l.EndDate > DateTime.Now).ToList();                        
+            var Courses = student.Courses.Select(s=>s.Course).Where(l => l.EndDate > clock.Now).ToList();                        
             foreach (var sc in Courses)
             {
-                var ststudygroups = db.StudyGroups.Where(s=> s.Course.Id == sc.Id && s.StartTime > DateTime.Now).ToList();
+                var ststudygroups = db.StudyGroups.Where(s=> s.Course.Id == sc.Id && s.StartTime > clock.Now).ToList();
                 var var1 = new FindViewModel.CourseStudyGroups();
                 var1.Course = sc;
                 var1.StudyGroups = ststudygroups;
@@ -180,16 +172,16 @@ namespace StudyUp.Controllers
 
                 var model = new ChooseCourseViewModel()
                 {
-                    Courses = stu_courses.Select(s => s.Course).Where(l => l.EndDate > DateTime.Now).ToList()
+                    Courses = stu_courses.Select(s => s.Course).Where(l => l.EndDate > clock.Now).ToList()
                 };
                 
                 return View("ChooseCourse", model);
             }
 
             var createModel = new CreateViewModel();
-            createModel.DateDay = DateTime.Now.Day;
-            createModel.DateMonth = DateTime.Now.Month;
-            createModel.DateYear = DateTime.Now.Year;
+            createModel.DateDay = clock.Now.Day;
+            createModel.DateMonth = clock.Now.Month;
+            createModel.DateYear = clock.Now.Year;
 
             return View(createModel);
         }

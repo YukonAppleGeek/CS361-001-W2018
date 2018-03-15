@@ -13,7 +13,6 @@ namespace StudyUp.Database {
 
         public StudyUpContext(DbContextOptions options) : base(options) {}
 
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<StudentCourse>().HasKey(t => new { t.StudentId, t.CourseId });
