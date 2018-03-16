@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+\usepackage{times}
+\usepackage{authblk}
+\usepackage{cite}
+
+\title{Project Proposal: StudyUp}
+% Need to put in our team name somewhere
+
+\author[1]{Chandler Petersen}
+\author[2]{Yukon Vinecki}
+\affil[1]{petercha, EECS - Oregon State University}
+\affil[2]{vineckiy, EECS - Oregon State University}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+\section{The Issue to be Addressed}
+\subsection{The Problem}
+Study groups for college students can be very valuable, and they are a common way to learn class content. Students gather to share ideas, gain new perspectives, and learn from one another. However, in many cases, it can be difficult to organize these groups. Students often don't know anybody else in their class, or have difficulty communicating with a group in order to organize a meet-up that works for each individual's schedule. You often don't know other students' names or phone numbers and it can be difficult to reach out. Further, it can be difficult to coordinate with people you do know to find mutually agreeable times and locations.  
+
+\subsection{Evidence}
+Evidence for this problem is primarily anecdotal, from both personal experience and as described by others, as most research is focused on the effectiveness of study groups rather than the difficulty in forming them. Research has shown that study groups are more effective for learning than studying alone\cite{StudyGroupResearch}. By making study groups more accessible more students are able to take advantage of their benefits. 
+% Could not find any academic source that talks about finding study groups being hard, the source is anecdotal evidence.
+
+\section{Brief Story}
+\subsection{Consider the Following}
+Consider the following: It's three days before your first Data Structures midterm. You feel somewhat prepared, but there are still several concepts you have yet to master. You'd ask a friend for help, but you don't know anybody in your class. You know other students are meeting up for a pre-midterm study session, but you don't know when or where the group is meeting, or if they would be open to letting you join. Now, beaten down by you lack of social skills, you trudge begrudgingly back to your dimly lit dorm room to study in solitude. If only there was a way to find a study group...
+% citing examples
+% Software Engineering: Theory and Practice~\cite{pfleeger2010software}
+% Software Engineering~\cite{sommerville2011software}
+
+\section{Vision and Approach}
+\subsection{Solving the Problem}
+Our vision is a web application in which students can create study groups for specific classes or subjects, or join existing ones. Students who already have a group could even sign in to the application and make their location a hot-spot for others to come and join. In this way, even students who don't know anybody in their class can come join groups, or form a group themselves for others to come join. It also resolves the issue of coordination between group members. The administrator of the study group can set a start time and location, and then publish the group, allowing others using the application to join the group.
+
+\subsection{High-Level Application/Approach}
+We envision a web application that students can access from their laptops or mobile device where they can network with other students to coordinate and organize study groups.They will be able to make any location on campus a "study group," and other students may join it, or they may search for active groups and join those. At its highest level, the application will support the searching for and creation of groups, as well as the ability to join existing groups and set study locations, times.There will be an intuitive interface that makes these options clear to the user, with a strong focus on visuals and ease of navigation.
+
+\subsection{Previous Approaches}
+The previous approach to this problem are to introduce yourself to other students in your class, exchange contact information, and then either initiate a study group yourself, or hope that they do. Another option is to reach out to other students via social media or through other existing education-facilitating frameworks like Canvas.
+
+\subsection{StudyUp Approach}
+In contrast to previous approaches, StudyUp provides a dedicated framework in which students can network and organize study groups, facilitating the formation of groups and minimizing the social pressure that is typically required. StudyUp also makes times and locations for meeting up clear and convenient, so all group members are on the same page.
+
+\section{Features}
+\subsection{Feature List}
+% Yukon, this is just some ideas! Let me know what you think. I feel like this would be a realistic picture of what the app could do. We can always add more or less. 
+The features of StudyUp include: The ability to start a new study group for a specific subject or class, the ability to join existing groups, settings to set the start-time, end-time, location, and capacity for the group, and the ability to see a real-time heat map of ongoing study groups on campus. Users will also be able to search for active groups by subject, class, and professor, narrowing down the visible active groups. Say you want to find a study group for your software engineering I final: you could search "computer science" and see a list of all the computer science-related study groups currently active on campus. You see that there is a CS 361 group that another user just activated. The app says that the group is in on the 3rd floor of the LInC in the southeast corner, started 10 minutes ago, and it has only 3 people of the 6-person capacity. You click "join" and the group-count is increased to 4. You then head over to meet-up with them and prepare for your final! 
+
+\section{Challenges and Limitations}
+\subsection{Challenges}
+Possible challenges are:
+\begin{itemize}
+\item Finding a database of building names at Oregon State.
+\item Creating a real-time searchable map of study locations
+\item Handling user accounts and information
+\end{itemize}
+
+\subsection{Limitations}
+Some limitations include:
+\begin{itemize}
+\item The number of users the application may be able to support
+\item The extent to which users will be able to interact
+\item The ability to determine and communicate precise study group locations
+\item User account security
+\end{itemize}
+
+\subsection{Risks and Mitigation}
+Some risks may include:
+\begin{itemize}
+\item The assumption that students will want to initiate study groups with other students not of their choosing.
+\item That we can develop a system for location-setting that's functional enough that groups can effectively meet-up.
+\item That the scope of this project is tractable enough that it can be completed in the required time with all the necessary features.
+\end{itemize}
+Mitigation: In order to address the first point, a survey can be conducted to determine if this is even a viable concept. The second point can be mitigated by including a description option that allows users to describe their study-location in a more detailed manner. The final point can be mitigated by starting with the core functionality of the application before moving on to more advanced features. As long as the core functionality is present, the application will be a success. 
+
+\section{Resources}
+\subsection{Software and Hardware}
+% This is probably the way to go since we all likely have these skills.
+We will utilize HTML5, CSS, and JavaScript for the front-end design and functionality of the web application. Students would be able to access the application online from their laptops or mobile devices by utilizing responsive design.
+For this proposal a specific back-end web framework is not required and can be decided during the initial development stage, possible options include, Node.js, ASP.Net MVC, and Django.
+
+\subsection{Database}
+If a back-end web framework is used, a MySQL database will be utilized to store and retrieve application data relating to users and other study group-related information. MongoDB is another option for this.
+% Or maybe MongoDB...?
+% We can talk about this. I know MySQL alright, so just using that as a placeholder for now.
+% I have worked with both in the past.
+
+\subsection{Documentation}
+% Add to this...
+External information that will be used include lecture notes from CS 290 (Web Development), CS 361 (Software Engineering I), as well as the Canvas REST API and Bootstrap class documentation. Documentation related to front-end development will also be used as reference.
+
+\subsection{System Architecture}
+%You might give the system architecture, describing at a very high level the
+%components that will interact in your system along with existing components
+%you might reuse.
+The primary purpose of the website is to provide a means of scheduling events with other students. This is the core functionality that will be implemented in this project. 
+The Canvas REST API will be used for user authentication to provide a seamless user experience. Once authenticated, users will have the option of searching for existing study sessions or creating their own. The possible classes will be sourced from the users Canvas account with the option to manual define a class or subject that is not listed.
+The front-end libraries Bootstrap and jQuery will used to develop web pages. These libraries provide a constant, interactive, and responsive design-based user experience.
+
+% We should find some sources for this!
+\bibliography{myref} % call to included myref file
+\bibliographystyle{ieeetr}
+
+
+\end{document}
