@@ -1,0 +1,116 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\title{StudyUp - FIS}
+
+\author[1]{Yukon Vinecki}
+\author[2]{Chandler Petersen}
+\author[3]{Calvin Todorovich}
+\author[4]{Moyez Ikhlas}
+\affil[1]{vineckiy, EECS - Oregon State University}
+\affil[2]{petercha, EECS - Oregon State University}
+\affil[3]{todorovc, EECS - Oregon State University}
+\affil[4]{ikhlasm, EECS - Oregon State University}
+
+\usepackage[parfill]{parskip}
+\begin{document}
+
+\pagenumbering{roman}
+\maketitle
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Product Release}
+
+The website is accessible at \url{https://studyup.yukon.io/}. To test the website with sample data the access token "demo" may be used.
+% paste URL here
+% Need to make sure we have a README in the repo with how to run our program. 
+
+\section{User Story}
+\subsection{Canvas Login}
+Yukon worked on this story primary with some testing help from the group. Some problems arose during testing where invalid data was attempting to be inserted into the data.
+
+Tasks for research and logging into the website took as long as expected (1 week, 5 hours). The testing phase took longer than expected though due to issues found. All known issues have since been resolved, completing this story.
+
+\subsection{Create Study Group}
+Calvin and Yukon worked together to implement the create study group user story. One problem that came up was the canvas integration with the forms. There were difficulties with getting the database operational. Additionally, we had to filter the classes from the student object in the database, because canvas includes completed classes in with current ones.
+
+The current status of the Create Group story is implemented. There has been minor testing to make sure it behaves properly, and further testing will be completed next week. This user story will be complete when we refine the interface, and test further.
+
+\subsection{List Current Groups}
+Moyez worked on the "List Current Groups" user story. This option is available to list all the Study Groups available, for the classes that the user is currently enrolled in. There was a big learning barrier that needed to be overcome to understand how all the different aspects of the UI work together, since I had never worked with a bootstrap or .NET core. Yukon really helped me understand that. 
+
+The most difficult part was getting the classes from Canvas and then going through the database to find all the Study Groups that were available for that specific class. Currently the View Group does exactly that and finds a test case Study Group that we made. No major testing has been done yet and the webpage has not been updated to reflect all the study groups dynamically that are available for a specific class. Currently the webpage only displays tiles that are only an example of how the webpage will look once completed. The majority of whats left is to now work on the front end design of the UI.
+
+\subsection{Join Study Group}
+Chandler and Yukon worked on the "Join Study Group" user story. This portion of the application's functionality exists as an option on the View Study Group UI. Some of the problems we encountered were those concerning the complexity of the logical operations that controlled what privileges each user has depending on the type of user they are (study group administrator, user who has already joined a group, or user who has not already joined a group). Additionally, keeping track of this sort of information in the database proved to be challenging. 
+
+Creating the ability for a user to join a study group, including integration into the view UI as well as the database, took around 6 hours over the course of 2 days to complete. The front-end portion consumed the first 3 hours, and the back-end integration, the last 3.
+
+The current status of the "Join Study Group" user story (as well as the View Study Group UI and functionality) is "implemented." There has been some testing done, but more will need to occur in the coming week. Additional methodical testing is primarily what is left to be completed on this portion. There are likely still some edge cases that must be accounted for and tested before this user story can be certified complete. 
+
+The spike and UML Sequence Diagram (developed last week) for this week were quite helpful. Particularly with this user story, where preconditions and postconditions are crucial to functionality. The sequence diagram was really helpful in identifying these conditions during implementation. Other than that, there were no other diagrams that we felt would have been useful in this particular situation.
+
+\section{Design Changes and Rationale}
+Some user stories were unclear, such as the website is easy to navigate, but we decided that our interface design was accessible. 
+This was one inquiry that we made to the customer. They responded with some specific examples of usability that they would like to see (i.e. nav-bar, logically located buttons), and we determined that we have already accomplished these specifications.
+
+For this week, the stories we handled had no changes to our previous design. For further implementation of user stories, such as the ones we may not get to, they will require scheduling, design, and requirement changes. Other than that though, there was no changes made to the requirements. 
+
+\section{Unit Tests}
+%  one major existing component/task in your system
+\subsection{Join/Leave Study Group Unit Test}
+Data input: In the database, set the user to belong to no study groups. Navigate to the View UI and press the "Join" button.
+
+Expected outcome: After the "Join" button has been pressed, it should change into a "Leave" button. The status of the user (membership in a group) should be reflected in the database upon inspection
+
+Recorded Results: Test PASSED. After the "Join" button was pressed, it disappeared and was replaced with a "Leave" button. In the database, the user's user ID was associated with the group ID that they had just joined.
+
+Results examined against expected outcome: The results of this unit test matched that of our expected outcome. The user who has joined a group should not be able to do so again, and instead should be given the option to leave the group, if they so desire. Additionally, The user should not be able to leave a group that they have not joined. So the "Leave" button should not be present until the user has joined the group. Also, once they have left the group, thy should again be presented with the opportunity to join once again. All these changes and associations should be reflected in the database. 
+
+% one major existing user story in your system (i.e.,acceptance testing)
+\subsection{Canvas Login Capability Unit Test}
+Data Input:Login requires an access token. This is generated by providing your Canvas user login credentials.
+
+Expected outcome: After the user logs in to Canvas, they are given an access token and can use that to login to the StudyUp application. Once the token is entered, they are brought to the homepage. If the wrong token is entered, they will not be allowed to enter
+
+Recorded Results: After generating a new access token from a new Canvas user, the user was granted access to StudyUp and ened up on the application's homepage. When the incorrect token was entered, they were not allowed into the homepage.
+
+Results examined against expected outcome: Our results matched what we expected. Upon entering the correct token, they were admitted. Entering the wrong token, they were not.
+%  one part of the system that is not yet implemented
+\subsection{Study Group Calendar}
+Data Input: Create and join several study groups at varying times and on different days.
+
+Expected outcome: For each group created or joined, it will be created as a new event on the Canvas calendar of that user. 
+
+Recorded Results: This part of the system has yet to be implemented (as required by the assignment description), so there are not yet any recorded results.
+
+Results examined against expected outcome: Examination of results against expected outcome to be determined in the future. 
+
+% For example, describe test design (e.g. input values), test execution (e.g.,methods call), test results (e.g., passed/failed) and any conclusions drawn from the testing activity.
+
+\section{Meeting Report}
+For next week, our goals are to implement the remaining components of the application's functionality, namely, the ability to create a study group and have that data saved in the database and reflected in all other aspects of the application to all users. We plan to have this user story completed by the end of next week. Additionally, we plan to finish development on optimizing for ease of navigation, a user story outlined in our previous report that we had scheduled for completion this week. And finally, we will finish the "Cancel Study Group" user story by the end of this week. This user story already almost finished, but just needs a couple changes made to it. This user story should be entirely complete by Thursday. The other two user stories will be complete by Friday. 
+
+This week, we finished integration of our application with Canvas, as well as working heavily on the Create Study Group UI and functionality. This is still a work in progress, however, and is scheduled to be completed this coming week. Additionally, users can now join a study group easily and view current active groups upon entering the website. 
+
+Yukon worked on the Canvas integration and enabling user login ability via Canvas, as well as finishing the database. Chandler worked on the functionality for the View UI, a central component of the application. he fixed it so that the button option available vary depending on the type of user you are, and fixed it so that it will pull in information from the Create Study Group form, and communicate with the database. 
+
+Our customer was able to meet with us, and we briefed them on our progress and our plans for the coming week. They outlined they're expectations for the application and we will take this input under consideration in our continual implementation. We believe our customer to be reasonable about the tasks they described, as they closely aligned to the user stories we have and are implementing. 
+
+
+\end{document}
